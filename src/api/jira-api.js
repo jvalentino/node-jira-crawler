@@ -1,4 +1,5 @@
 const axios = require("axios");
+const http = require("../util/http-util");
 
 async function getAllUsers(settings, maxResults = 250) {
   let results = [];
@@ -64,7 +65,18 @@ async function getProjects(settings, startAt, maxResults) {
   return response.data.values;
 }
 
+async function getProjectDetails(settings, key) {
+  const url = `${settings.jiraBaseUrl}/rest/api/3/project/${key}`;
+  const headers = {
+    Authorization: `Basic ${settings.jiraApiKey}`,
+  };
+  const response = await http.get(url, headers);
+
+  return response.data;
+}
+
 module.exports = {
   getAllUsers: getAllUsers,
   getAllProjects: getAllProjects,
+  getProjectDetails: getProjectDetails,
 };
