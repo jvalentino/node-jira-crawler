@@ -102,8 +102,49 @@ async function getAllUsers(settings) {
     return detail;
   }
 
+  async function pullStoriesForProjects(settings, projects, poolSize=50) {
+    out.section("Pulling Project Stories", "yellow");
+
+    const dir = `${settings.buildDir}/project-stories`;
+    fsUtil.mkdir(dir);
+
+    for (let i = 0; i < projects.length; i += poolSize) {
+        // this is a list of projects to be obtained in parallel
+        const chunk = projects.slice(i, i + poolSize);
+
+        // these are the stories that align the the projects in the chunk
+        const details = await Promise.all(
+          chunk.map((item) => pullStories(settings, item, dir))
+        );
+    
+        for (let j = 0; j < chunk.length; j++) {
+            const project = chunk[j];
+            const detail = details[j];
+
+            project.stories = detail;
+        }
+      }
+
+      fsUtil.writeJson(`${settings.buildDir}/jira-projects-with-details-and-stories.json`, projects);
+
+      return projects;
+  }
+
+  async function pullStories(settings, project, dir) {
+    const file = `${dir}/${project.id}.json`;
+  
+    if (fsUtil.exists(file)) {
+      return fsUtil.parseJSON(file);
+    }
+  
+    const detail = await api.runJQL(settings, `project=%22${project.key}%22+AND+issuetype+in+(Bug,Story)+order+by+created+DESC`);
+    fsUtil.writeJson(file, detail, 0);
+    return detail;
+  }
+
   module.exports = {
     getAllUsers: getAllUsers,
     obtainAllProjects: obtainAllProjects,
     pullDetailsForProjects: pullDetailsForProjects,
+    pullStoriesForProjects: pullStoriesForProjects,
   };
