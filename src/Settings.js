@@ -5,7 +5,6 @@ class Settings {
     this.jiraBaseUrl = null;
     this.jiraApiKey = null;
     this.daysBack = null;
-
   }
 }
 

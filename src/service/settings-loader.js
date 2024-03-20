@@ -30,8 +30,7 @@ function load() {
 
   settings.buildDir = "build";
 
-
-  settings.jiraBaseUrl = argv.jira_url;;
+  settings.jiraBaseUrl = argv.jira_url;
   settings.jiraApiKey = argv.jira_api_key;
 
   settings.daysBack = parseInt(argv.days_back);
