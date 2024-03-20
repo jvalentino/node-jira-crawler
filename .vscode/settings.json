@@ -1,0 +1,4 @@
+{
+    "javascript.testing.framework": "mocha",
+    "jest.enable": false
+}
