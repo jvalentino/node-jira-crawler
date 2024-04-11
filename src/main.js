@@ -1,6 +1,7 @@
 const jira = require("./service/jira-service");
 const flatten = require("./service/flatten-service");
 const fsUtil = require("./util/file-utils");
+const excel = require("./service/excel-service");
 
 async function execute(settings, currentDate = new Date()) {
   const users = await jira.getAllUsers(settings);
@@ -11,6 +12,10 @@ async function execute(settings, currentDate = new Date()) {
   // now flatten the projects with stories
   const flattened = flatten.recursiveFlatten(projectsWithStories, 'stories');
   fsUtil.writeJson(`${settings.buildDir}/flattened-stories.json`, flattened);
+
+  // now output it to excel
+  excel.generate(`${settings.buildDir}/flattened-stories.xlsx`, flattened);
+
 
 }
 

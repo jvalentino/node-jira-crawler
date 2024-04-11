@@ -36,6 +36,8 @@ function recursiveFlatten(list, listKey) {
         }
     }
 
+    out.log(" ");
+
     return results;
 }
 

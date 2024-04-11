@@ -26,7 +26,8 @@ describe("flatten-service.js", function() {
                 e: [
                     {
                         f: 4,
-                        g: 5
+                        g: 5,
+                        h: 99
                     },
                     {
                         f: 6,
@@ -42,8 +43,8 @@ describe("flatten-service.js", function() {
 
         // then
         const expected = [
-            { a: 1, 'b.c': 2, 'b.d': 3, f: 4, g: 5 },
-            { a: 1, 'b.c': 2, 'b.d': 3, f: 6, g: 7 }
+            { a: 1, 'b.c': 2, 'b.d': 3, f: 4, g: 5, h: 99},
+            { a: 1, 'b.c': 2, 'b.d': 3, f: 6, g: 7, h: null }
           ];
         //console.log(results);
         expect(results).deep.equals(expected);
