@@ -18,15 +18,11 @@ async function getAllUsers(settings) {
     }
   
     out.nvp("- ", "Users", users.length);
-  
-    // filter out for only active users
-    const filteredUsers = filterInactive(users);
-    out.nvp("- ", "Active Users", filteredUsers.length);
 
     out.log(" ");
 
   
-    return filteredUsers;
+    return users;
   }
 
   function filterInactive(users) {
@@ -142,9 +138,14 @@ async function getAllUsers(settings) {
     return detail;
   }
 
+  function outputToCSV(projects) {
+
+  }
+
   module.exports = {
     getAllUsers: getAllUsers,
     obtainAllProjects: obtainAllProjects,
     pullDetailsForProjects: pullDetailsForProjects,
     pullStoriesForProjects: pullStoriesForProjects,
+    outputToCSV: outputToCSV,
   };
